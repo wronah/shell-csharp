@@ -8,6 +8,7 @@ while (true)
     // Wait for user input
     var command = Console.ReadLine().Split(' ');
     var builtinCommands = new List<string> { "exit", "echo", "type" };
+    
 
     if (command[0] == builtinCommands[0] && command[1] == "0")
     {
@@ -29,7 +30,23 @@ while (true)
         }
         else
         {
-            Console.WriteLine($"{command[1]}: not found");
+            var pathsArr = System.Environment.GetEnvironmentVariable("PATH")!.Split(":");
+            var isFound = false;
+            foreach (var path in pathsArr)
+            {
+                var joinedPath = Path.Join(path, command[1]);
+                if(File.Exists(joinedPath))
+                {
+                    isFound = true;
+                    Console.WriteLine($"{command[1]} is {joinedPath}");
+                    break;
+                }
+            }
+
+            if (!isFound)
+            {
+                Console.WriteLine($"{command[1]}: not found");
+            }
         }
     }
     else
