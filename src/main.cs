@@ -6,12 +6,22 @@ while(true)
     Console.Write("$ ");
 
     // Wait for user input
-    var command = Console.ReadLine();
+    var command = Console.ReadLine().Split(' ');
 
-    if(command == "exit 0")
+    if (command[0] == "exit" && command[1] == "0")
     {
         break;
     }
-
-    Console.WriteLine($"{command}: command not found");
+    else if (command[0] == "echo")
+    {
+        for (int i = 1;  i < command.Length; i++)
+        {
+            Console.Write($"{command[i]} ");
+        }
+        Console.WriteLine();
+    }
+    else
+    {
+        Console.WriteLine($"{command[0]}: command not found");
+    }
 }
