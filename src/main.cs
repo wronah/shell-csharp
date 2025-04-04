@@ -17,6 +17,7 @@ while (true)
     if (Utils.FindCommandInPath(command) is string path)
     {
         Utils.RunProcess(path, arguments);
+        continue;
     }
 
     switch (command)
