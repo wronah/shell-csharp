@@ -1,72 +1,31 @@
-using System.Diagnostics;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-
 while (true)
 {
     Console.Write("$ ");
 
-    // Wait for user input
-    var command = Console.ReadLine().Split(' ');
-    var builtinCommands = new List<string> { "exit", "echo", "type" };
-    var paths = System.Environment.GetEnvironmentVariable("PATH");
-    var pathsSplit = paths!.Split("\\");
-    var exeFromPaths = pathsSplit[pathsSplit.Length - 1];
+    var input = Console.ReadLine()?.Split(' ', StringSplitOptions.RemoveEmptyEntries); ;
 
-    if (command[0] == builtinCommands[0] && command[1] == "0")
+    if (input == null || input.Length == 0)
     {
-        break;
+        continue;
     }
-    else if (command[0] == exeFromPaths)
-    {
-        var process = new Process();
-        process.StartInfo.FileName = command[0];
-        var argumentsStringBuilder = new StringBuilder();
-        for(int i = 1; i < command.Length; i++ )
-        {
-            argumentsStringBuilder.Append($"/arg{i} {command[i]} ");
-        }
-        process.StartInfo.Arguments = argumentsStringBuilder.ToString();
-        process.Start();
-    }
-    else if (command[0] == builtinCommands[1])
-    {
-        for (int i = 1; i < command.Length; i++)
-        {
-            Console.Write($"{command[i]} ");
-        }
-        Console.WriteLine();
-    }
-    else if (command[0] == builtinCommands[2])
-    {
-        if (builtinCommands.Contains(command[1]))
-        {
-            Console.WriteLine($"{command[1]} is a shell builtin");
-        }
-        else
-        {
-            var pathsArr = paths!.Split(":");
-            var isFound = false;
-            foreach (var path in pathsArr)
-            {
-                var joinedPath = Path.Join(path, command[1]);
-                if (File.Exists(joinedPath))
-                {
-                    isFound = true;
-                    Console.WriteLine($"{command[1]} is {joinedPath}");
-                    break;
-                }
-            }
 
-            if (!isFound)
-            {
-                Console.WriteLine($"{command[1]}: not found");
-            }
-        }
-    }
-    else
+    var command = input[0];
+    var arguments = input.Length > 1 ? input[1..] : Array.Empty<string>();
+
+    switch (command)
     {
-        Console.WriteLine($"{command[0]}: command not found");
+        case Commands.Exit:
+            Commands.ExitCommand(arguments);
+            break;
+        case Commands.Echo:
+            Commands.EchoCommand(arguments);
+            break;
+        case Commands.Type:
+            Commands.TypeCommand(arguments[0]);
+            break;
+        default:
+            Console.WriteLine($"{command}: command not found");
+            break;
     }
 }
+
