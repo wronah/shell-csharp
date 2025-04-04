@@ -23,6 +23,10 @@ public static class Utils
 
     public static string? FindExecutableInPath(string command)
     {
+        if(IsExecutable(command))
+        {
+            return FindInPath(command);
+        }
         return FindInPath($"{command}.exe");
     }
 
