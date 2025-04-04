@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 while (true)
 {
     Console.Write("$ ");
@@ -11,6 +13,11 @@ while (true)
 
     var command = input[0];
     var arguments = input.Length > 1 ? input[1..] : Array.Empty<string>();
+
+    if (Utils.FindCommandInPath(command) is string path)
+    {
+        Utils.RunProcess(path, arguments);
+    }
 
     switch (command)
     {

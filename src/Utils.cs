@@ -1,4 +1,6 @@
-﻿public static class Utils
+﻿using System.Diagnostics;
+
+public static class Utils
 {
     public static bool IsExecutable(string filePath)
     {
@@ -29,5 +31,22 @@
         }
 
         return null;
+    }
+
+    public static void RunProcess(string path, string[] arguments)
+    {
+        var processInfo = new ProcessStartInfo
+        {
+            FileName = path,
+            Arguments = string.Join(" ", arguments),
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+
+        var process = Process.Start(processInfo);
+        string output = process!.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+        process.WaitForExit();
     }
 }
