@@ -3,9 +3,10 @@
     public const string Exit = "exit";
     public const string Echo = "echo";
     public const string Type = "type";
+    public const string Pwd = "pwd";
 
     private static readonly List<string> builtinCommands = 
-        [Exit, Echo, Type];
+        [Exit, Echo, Type, Pwd];
 
     public static void ExitCommand(string[] arguments) 
     {
@@ -43,5 +44,10 @@
         }
 
         Console.WriteLine($"{command}: not found");
+    }
+
+    public static void PwdCommand()
+    {
+        Console.WriteLine(Environment.CurrentDirectory);
     }
 }

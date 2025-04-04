@@ -31,6 +31,9 @@ while (true)
         case Commands.Type:
             Commands.TypeCommand(arguments[0]);
             break;
+        case Commands.Pwd:
+            Commands.PwdCommand();
+            break;
         default:
             Console.WriteLine($"{command}: command not found");
             break;
