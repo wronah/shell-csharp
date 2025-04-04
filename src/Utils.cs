@@ -48,5 +48,6 @@ public static class Utils
         string output = process!.StandardOutput.ReadToEnd();
         Console.WriteLine(output);
         process.WaitForExit();
+        Console.WriteLine();
     }
 }
