@@ -54,7 +54,25 @@
 
     public static void CdCommand(string path)
     {
-        if(Path.Exists(path))
+        if (path == "~") 
+        {
+            var homeDirectory = "";
+
+            if(OperatingSystem.IsWindows())
+            {
+                homeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
+            } 
+            else
+            {
+                homeDirectory = Environment.GetEnvironmentVariable("HOME");
+            }
+
+            Environment.CurrentDirectory = homeDirectory!;
+
+            return;
+        }
+
+        if (Path.Exists(path))
         {
             Environment.CurrentDirectory = path;
             return;
