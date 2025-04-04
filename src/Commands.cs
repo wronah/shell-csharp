@@ -56,28 +56,23 @@
     {
         if (path == "~") 
         {
-            var homeDirectory = "";
-
             if(OperatingSystem.IsWindows())
             {
-                homeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
+                path = Environment.GetEnvironmentVariable("USERPROFILE")!;
             } 
             else
             {
-                homeDirectory = Environment.GetEnvironmentVariable("HOME");
+                path = Environment.GetEnvironmentVariable("HOME")!;
             }
-
-            Environment.CurrentDirectory = homeDirectory!;
-
-            return;
         }
 
-        if (Path.Exists(path))
+        try
         {
             Environment.CurrentDirectory = path;
-            return;
         }
-
-        Console.WriteLine($"{Cd}: {path}: No such file or directory");
+        catch
+        {
+            Console.WriteLine($"{Cd}: {path}: No such file or directory");
+        }
     }
 }
