@@ -44,7 +44,7 @@ public static class Utils
 
         var process = Process.Start(processInfo);
         string output = process!.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
+        Console.WriteLine(output.Trim());
         process.WaitForExit();
     }
 }
