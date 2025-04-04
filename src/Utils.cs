@@ -18,19 +18,12 @@ public static class Utils
 
     public static string? FindCommandInPath(string command)
     {
-        var paths = Environment.GetEnvironmentVariable("PATH")?
-            .Split(Path.PathSeparator) ?? Array.Empty<string>();
+        return FindInPath(command);
+    }
 
-        foreach (var path in paths)
-        {
-            string fullPath = Path.Combine(path, command);
-            if (File.Exists(fullPath) && IsExecutable(fullPath))
-            {
-                return fullPath;
-            }
-        }
-
-        return null;
+    public static string? FindExecutableInPath(string command)
+    {
+        return FindInPath($"{command}.exe");
     }
 
     public static void RunProcess(string path, string[] arguments)
@@ -48,6 +41,22 @@ public static class Utils
         string output = process!.StandardOutput.ReadToEnd();
         Console.WriteLine(output);
         process.WaitForExit();
-        Console.WriteLine();
+    }
+
+    private static string? FindInPath(string fileName)
+    {
+        var paths = Environment.GetEnvironmentVariable("PATH")?
+            .Split(Path.PathSeparator) ?? Array.Empty<string>();
+
+        foreach (var path in paths)
+        {
+            string fullPath = Path.Combine(path, fileName);
+            if (File.Exists(fullPath) && IsExecutable(fullPath))
+            {
+                return fullPath;
+            }
+        }
+
+        return null;
     }
 }

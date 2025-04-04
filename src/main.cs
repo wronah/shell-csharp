@@ -14,7 +14,7 @@ while (true)
     var command = input[0];
     var arguments = input.Length > 1 ? input[1..] : Array.Empty<string>();
 
-    if (Utils.FindCommandInPath(command) is string path)
+    if (Utils.FindExecutableInPath(command) is string path)
     {
         Utils.RunProcess(path, arguments);
         continue;
