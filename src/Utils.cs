@@ -15,21 +15,22 @@ public static class Utils
                    (new FileInfo(filePath).Attributes & FileAttributes.Directory) == 0;
         }
     }
-
-    public static string? FindCommandInPath(string command)
+    public static string? FindInPath(string fileName)
     {
-        return FindInPath(command);
-    }
+        var paths = Environment.GetEnvironmentVariable("PATH")?
+            .Split(Path.PathSeparator) ?? Array.Empty<string>();
 
-    public static string? FindExecutableInPath(string command)
-    {
-        if(IsExecutable(command))
+        foreach (var path in paths)
         {
-            return FindInPath(command);
+            string fullPath = Path.Combine(path, fileName);
+            if (File.Exists(fullPath) && IsExecutable(fullPath))
+            {
+                return fullPath;
+            }
         }
-        return FindInPath($"{command}.exe");
-    }
 
+        return null;
+    }
     public static void RunProcess(string path, string[] arguments)
     {
         var processInfo = new ProcessStartInfo
@@ -45,22 +46,5 @@ public static class Utils
         string output = process!.StandardOutput.ReadToEnd();
         Console.WriteLine(output);
         process.WaitForExit();
-    }
-
-    private static string? FindInPath(string fileName)
-    {
-        var paths = Environment.GetEnvironmentVariable("PATH")?
-            .Split(Path.PathSeparator) ?? Array.Empty<string>();
-
-        foreach (var path in paths)
-        {
-            string fullPath = Path.Combine(path, fileName);
-            if (File.Exists(fullPath) && IsExecutable(fullPath))
-            {
-                return fullPath;
-            }
-        }
-
-        return null;
     }
 }

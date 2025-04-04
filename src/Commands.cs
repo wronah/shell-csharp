@@ -36,7 +36,7 @@
             return;
         }
 
-        if (Utils.FindCommandInPath(command) is string path)
+        if (Utils.FindInPath(command) is string path)
         {
             Console.WriteLine($"{command} is {path}");
             return;
