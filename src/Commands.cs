@@ -4,9 +4,10 @@
     public const string Echo = "echo";
     public const string Type = "type";
     public const string Pwd = "pwd";
+    public const string Cd = "cd";
 
     private static readonly List<string> builtinCommands = 
-        [Exit, Echo, Type, Pwd];
+        [Exit, Echo, Type, Pwd, Cd];
 
     public static void ExitCommand(string[] arguments) 
     {
@@ -49,5 +50,16 @@
     public static void PwdCommand()
     {
         Console.WriteLine(Environment.CurrentDirectory);
+    }
+
+    public static void CdCommand(string path)
+    {
+        if(Path.Exists(path))
+        {
+            Environment.CurrentDirectory = path;
+            return;
+        }
+
+        Console.WriteLine($"{Cd}: {path}: No such file or directory");
     }
 }

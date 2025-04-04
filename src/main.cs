@@ -34,6 +34,9 @@ while (true)
         case Commands.Pwd:
             Commands.PwdCommand();
             break;
+        case Commands.Cd:
+            Commands.CdCommand(arguments[0]);
+            break;
         default:
             Console.WriteLine($"{command}: command not found");
             break;
